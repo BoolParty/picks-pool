@@ -19,19 +19,18 @@ function App() {
           'https://api.the-odds-api.com/v4/sports/americanfootball_nfl/odds/',
           {
             params: {
-              apiKey: 'e610b9eb14346942d3a1ff7b2a4ac0b4',
+              apiKey: process.env.REACT_APP_ODDS_API_KEY, // Using environment variable
               regions: 'us',
               markets: 'spreads',
               oddsFormat: 'american',
             },
           }
         );
-        setGames(response.data.filter((game) => new Date(game.commence_time) > new Date()));
+        setGames(response.data); // Save the fetched games in state
       } catch (err) {
-        console.error('Error fetching odds:', err);
         setError('Failed to fetch odds. Please try again.');
       } finally {
-        setLoading(false);
+        setLoading(false); // Mark loading as complete
       }
     };
 
@@ -121,27 +120,27 @@ function App() {
 
     {/* Drawer rows */}
     {selectedPicks.map((pick, index) => (
-  <div
-    key={`${pick.gameId}-${pick.team}`}
-    className="drawer-row"
-    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#f7f7f7')}
-    onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'white')}
-  >
-    <button className="remove-pick" onClick={() => removePick(index)}>x</button>
-    <span>{pick.team}</span>
-    <span className="spread">{formatSpread(pick.spread)}</span> {/* Updated here */}
-    <select value={pick.wager} onChange={(e) => updateWager(index, e.target.value)}>
-      <option value="">Select</option>
-      <option value="25">$25</option>
-      <option value="50">$50</option>
-      <option value="75">$75</option>
-      <option value="100">$100</option>
-      <option value="150">$150</option>
-      <option value="200">$200</option>
-      <option value="250">$250</option>
-    </select>
-  </div>
-))}
+      <div
+        key={`${pick.gameId}-${pick.team}`}
+        className="drawer-row"
+        onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#f7f7f7')}
+        onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'white')}
+      >
+        <button className="remove-pick" onClick={() => removePick(index)}>x</button>
+        <span>{pick.team}</span>
+        <span>{formatSpread(pick.spread)}</span>
+        <select value={pick.wager} onChange={(e) => updateWager(index, e.target.value)}>
+          <option value="">Select</option>
+          <option value="25">$25</option>
+          <option value="50">$50</option>
+          <option value="75">$75</option>
+          <option value="100">$100</option>
+          <option value="150">$150</option>
+          <option value="200">$200</option>
+          <option value="250">$250</option>
+        </select>
+      </div>
+    ))}
 
     {/* Drawer footer */}
     <div className="drawer-footer">
