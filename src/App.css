@@ -14,6 +14,8 @@ body {
   text-align: center;
   margin-bottom: 40px;
   position: relative;
+  border-bottom: 2px solid white;
+  padding-bottom: 20px;
 }
 
 .title-section h1 {
@@ -24,8 +26,8 @@ body {
 
 .title-section .account-button {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 30px;
+  right: 16px;
   background-color: #444;
   color: white;
   border: none;
@@ -202,4 +204,233 @@ hr {
   font-weight: bold;
   margin: 0;
   color: #000000;
+}
+
+/* Center elements and add spacing above them */
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: top;
+  min-height: calc(100vh - 100px); /* Full height minus the additional space */
+  margin-top: 36px;
+}
+
+.login-container input,
+.login-container button,
+.login-container p {
+  margin: 10px 0; /* Adds spacing between elements */
+  padding: 10px;
+  width: 300px; /* Adjust width for consistent input and button sizes */
+  font-size: 16px; /* Standardizes font size */
+  text-align: center; /* Centers text in inputs and buttons */
+}
+
+.login-container button {
+  background-color: #056605; /* Green button */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.login-container button:hover {
+  background-color: #056605; /* Darker Green on hover */
+}
+
+.login-container p {
+  cursor: pointer;
+  color: #f5f8f5;
+  text-decoration: underline;
+}
+
+.login-container p:hover {
+  color: #f5f8f5; /* Darker Green on hover */
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 400px;
+  background-color: white;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
+}
+
+.drawer.collapsed {
+  width: 72px; /* Keep the drawer partially visible */
+  transform: none; /* Do not push the drawer completely out of view */
+}
+
+.drawer.collapsed .drawer-title,
+.drawer.collapsed .drawer-header,
+.drawer.collapsed .drawer-row,
+.drawer.collapsed .drawer-footer {
+  display: none; /* Hide all elements in the drawer when collapsed */
+}
+
+.drawer-toggle {
+  position: absolute;
+  top: 10px;
+  left: 10px; /* Ensure the button stays at the edge of the screen */
+  background-color: white;
+  border: 1px solid grey;
+  border-radius: 50%;
+  padding: 10px;
+  font-size: 18px;
+  cursor: pointer;
+  color: grey;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  z-index: 10; /* Keep the button above all elements */
+}
+
+.drawer-toggle:hover {
+  background-color: lightgrey;
+}
+
+/* Make the main layout responsive */
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  padding: 20px;
+}
+
+/* Adjust content layout for smaller screens */
+@media (max-width: 768px) {
+  .account-button {
+    position: absolute;
+    top: calc(50% - 8px) !important;
+    left: 83%; /* Centers horizontally */
+    transform: translate(-50%, -50%);
+    background-color: #444;
+    color: white;
+    font-size: 11px;
+    border: none;
+    border-radius: 5px;
+    padding: 6px 8px;
+    cursor: pointer;
+    min-width: fit-content; /* Ensure background adjusts to text size */
+    max-width: none; /* Remove unnecessary constraints */
+    overflow: visible; /* Ensure background isn't clipped */
+  }
+  .drawer {
+    width: 100%; /* Full-width drawer for mobile */
+  }
+
+  .games-list {
+    width: 100%; /* Make the game list responsive */
+    padding: 0 20px;
+  }
+
+  .team {
+    flex-direction: column; /* Stack teams on mobile */
+    align-items: flex-start;
+  }
+
+  .pick-button {
+    width: 100%; /* Full-width buttons for easier tapping */
+    text-align: center;
+  }
+
+  .title-section h1 {
+    font-size: 28px; /* Smaller title for mobile */
+    text-align: left;
+  }
+
+  .game-container {
+    display: flex;
+    flex-direction: column; /* Stack teams vertically */
+    gap: 20px; /* Add spacing between teams */
+  }
+}
+
+/* Centering the entire content */
+.unmatched-picks-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh; /* Ensure the page takes up the full viewport height */
+  text-align: center;
+  padding: 20px;
+}
+
+/* Add 6px space between each unmatched pick */
+.unmatched-pick-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.unmatched-pick-item {
+  margin-bottom: 24px; /* Space between each pick */
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 100%; /* Ensure the picks stretch to fill the container */
+  max-width: 600px; /* Limit width for better readability */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling for headings */
+.unmatched-picks-container h1 {
+  margin-bottom: 20px;
+}
+
+/* Styling for the "no picks found" message */
+.unmatched-picks-container p {
+  font-size: 18px;
+}
+
+/* Centering the entire content */
+.matched-picks-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh; /* Ensure the page takes up the full viewport height */
+  text-align: center;
+  padding: 20px;
+}
+
+/* Add 6px space between each unmatched pick */
+.matched-pick-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.matched-pick-item {
+  margin-bottom: 24px; /* Space between each pick */
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 100%; /* Ensure the picks stretch to fill the container */
+  max-width: 600px; /* Limit width for better readability */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling for headings */
+.matched-picks-container h1 {
+  margin-bottom: 20px;
+}
+
+/* Styling for the "no picks found" message */
+.matched-picks-container p {
+  font-size: 18px;
+}
+
+/* Underline the 'Matched With' label */
+.matched-with {
+  text-decoration: underline;
+}
+
+.site-title {
+  text-decoration: none; /* Remove underline */
+  color: #ffffff;
 }

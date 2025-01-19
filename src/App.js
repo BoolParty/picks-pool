@@ -1,6 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './App.css';
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./firebase";
+import { useNavigate } from 'react-router-dom';
+import { Routes, Route } from "react-router-dom";
+import Account from "./Account";
+import Home from './Home';
+import Drawer from './Drawer';
+import Login from './Login';
+import UserProfile from "./UserProfile";
+import MatchedPicks from "./MatchedPicks";
+import UnmatchedPicks from "./UnmatchedPicks";
 
 function App() {
   const [games, setGames] = useState([]);
@@ -8,29 +19,64 @@ function App() {
   const [error, setError] = useState(null);
   const [selectedPicks, setSelectedPicks] = useState([]);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [drawerCollapsed, setDrawerCollapsed] = useState(false);
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate(); // React Router navigation
+
   const formatSpread = (spread) => {
     return spread > 0 ? `+${spread}` : spread.toString();
   };
 
   useEffect(() => {
+    // Listen for Firebase auth state changes
+    const unsubscribe = auth.onAuthStateChanged((firebaseUser) => {
+      if (firebaseUser) {
+        // User is logged in, update state
+        setUser({
+          uid: firebaseUser.uid,
+          email: firebaseUser.email,
+          displayName: firebaseUser.displayName || 'Guest', // Fallback for display name
+        });
+      } else {
+        // User is logged out, reset state
+        setUser(null);
+      }
+    });
+
+    return () => unsubscribe(); // Clean up the listener on unmount
+  }, []);
+
+  useEffect(() => {
+    const apiKey = process.env.REACT_APP_ODDS_API_KEY;
     const fetchOdds = async () => {
       try {
         const response = await axios.get(
           'https://api.the-odds-api.com/v4/sports/americanfootball_nfl/odds/',
           {
             params: {
-              apiKey: process.env.REACT_APP_ODDS_API_KEY, // Using environment variable
+              apiKey: apiKey,
               regions: 'us',
               markets: 'spreads',
               oddsFormat: 'american',
             },
           }
         );
-        setGames(response.data); // Save the fetched games in state
+
+        // Filter games with a valid start time
+        const now = new Date();
+      const sevenDaysFromNow = new Date();
+      sevenDaysFromNow.setDate(now.getDate() + 7);
+
+      const filteredGames = response.data.filter((game) => {
+        const gameStartTime = new Date(game.commence_time); // Convert commence_time to Date
+        return gameStartTime >= now && gameStartTime <= sevenDaysFromNow;
+      });
+
+        setGames(filteredGames);
       } catch (err) {
         setError('Failed to fetch odds. Please try again.');
       } finally {
-        setLoading(false); // Mark loading as complete
+        setLoading(false);
       }
     };
 
@@ -43,10 +89,14 @@ function App() {
       if (exists) {
         return prevPicks.filter((pick) => !(pick.gameId === gameId && pick.team === team));
       } else {
-        setDrawerOpen(true); // Open the drawer on first pick
+        setDrawerOpen(true);
         return [...prevPicks, { gameId, team, spread, wager: '' }];
       }
     });
+  };
+
+  const handleDrawerToggle = () => {
+    setDrawerCollapsed((prev) => !prev);
   };
 
   const updateWager = (index, amount) => {
@@ -61,103 +111,55 @@ function App() {
     setSelectedPicks((prevPicks) => prevPicks.filter((_, i) => i !== index));
   };
 
-  const allWagersSelected = selectedPicks.every((pick) => pick.wager);
-
   return (
-    <div className="app">
-      <header className="title-section">
-        <h1>NFL Pick Party</h1>
-        <button className="account-button">Account</button>
-        <hr />
-      </header>
+      <div className="app">
+        <header className="title-section">
+          <h1>
+            <a href="/" className="site-title">
+              NFL Pick Party
+            </a>
+          </h1>
+          {user ? (
+            <button className="account-button" onClick={() => navigate("/account")}>
+              Account
+            </button>
+          ) : (
+            <button className="account-button" onClick={() => navigate("/login")}>
+              Sign In
+            </button>
+          )}
+        </header>
 
-      <main className="content">
-        <h2 className="section-header">NFL</h2>
-        <hr className="sub-header-line" />
+        <Routes>
+          <Route path="/" element={<Home
+                games={games}
+                loading={loading}
+                error={error}
+                togglePick={togglePick}
+                formatSpread={formatSpread}
+                user={user}
+              />
+            }
+          />
+          <Route path="/account" element={<Account />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/userprofile" element={<UserProfile />} />
+          <Route path="/matchedpicks" element={<MatchedPicks user={user} />} />
+          <Route path="/unmatchedpicks" element={<UnmatchedPicks user={user} />} />
+        </Routes>
 
-        {loading && <p>Loading games...</p>}
-        {error && <p>{error}</p>}
-
-        <ul className="games-list">
-  {games.map((game) => {
-    const spreads = game.bookmakers[0]?.markets[0]?.outcomes || [];
-    const awaySpread = spreads.find((outcome) => outcome.name === game.away_team);
-    const homeSpread = spreads.find((outcome) => outcome.name === game.home_team);
-
-    if (!awaySpread || !homeSpread) return null;
-
-    return (
-      <li key={game.id} className="game">
-        <div className="team">
-          {game.away_team} <button onClick={() => togglePick(game.id, game.away_team, awaySpread.point)}>
-            {formatSpread(awaySpread.point)}
-          </button>
-        </div>
-        <div className="team">
-          {game.home_team} <button onClick={() => togglePick(game.id, game.home_team, homeSpread.point)}>
-            {formatSpread(homeSpread.point)}
-          </button>
-        </div>
-      </li>
-    );
-  })}
-</ul>
-      </main>
-
-      {drawerOpen && (
-  <div className="drawer">
-    {/* Drawer title */}
-    <div className="drawer-title">
-      <h2>Pick Sheet</h2>
-    </div>
-
-    {/* Drawer header */}
-    <div className="drawer-header">
-      <span>Team</span>
-      <span>Spread</span>
-      <span style={{ textAlign: 'right' }}>Wager Amount</span>
-    </div>
-
-    {/* Drawer rows */}
-    {selectedPicks.map((pick, index) => (
-      <div
-        key={`${pick.gameId}-${pick.team}`}
-        className="drawer-row"
-        onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#f7f7f7')}
-        onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'white')}
-      >
-        <button className="remove-pick" onClick={() => removePick(index)}>x</button>
-        <span>{pick.team}</span>
-        <span>{formatSpread(pick.spread)}</span>
-        <select value={pick.wager} onChange={(e) => updateWager(index, e.target.value)}>
-          <option value="">Select</option>
-          <option value="25">$25</option>
-          <option value="50">$50</option>
-          <option value="75">$75</option>
-          <option value="100">$100</option>
-          <option value="150">$150</option>
-          <option value="200">$200</option>
-          <option value="250">$250</option>
-        </select>
+        <Drawer
+          drawerOpen={drawerOpen}
+          drawerCollapsed={drawerCollapsed}
+          handleDrawerToggle={handleDrawerToggle}
+          selectedPicks={selectedPicks}
+          removePick={removePick}
+          updateWager={updateWager}
+          allWagersSelected={selectedPicks.every((pick) => pick.wager)}
+          setSelectedPicks={setSelectedPicks}
+          user={user}
+        />
       </div>
-    ))}
-
-    {/* Drawer footer */}
-    <div className="drawer-footer">
-      <button
-        className={`place-picks-button ${allWagersSelected ? 'active' : ''}`}
-        disabled={!allWagersSelected}
-        onClick={() => alert('Picks placed!')}
-      >
-        Place Picks
-      </button>
-      <span className="total-wager">
-        Total: ${selectedPicks.reduce((sum, pick) => sum + Number(pick.wager || 0), 0)}
-      </span>
-    </div>
-  </div>
-)}
-    </div>
   );
 }
 
