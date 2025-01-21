@@ -12,9 +12,6 @@ const Drawer = ({
   user,
 }) => {
   if (!drawerOpen) return null;
-
-  // Temporary change to force new SHA for redeploy
-  console.log("Force redeploy");
   
   // Define apiUrl here using environment variable
   const apiUrl = process.env.REACT_APP_API_URL;
