@@ -36,7 +36,7 @@ const handlePlaceAllPicks = async () => {
       console.log('Submitting picks:', enrichedPicks); // Debug log
   
       // Send all enriched picks to the backend in a single request
-      const response = await fetch('${apiUrl}/api/picks', {
+      const response = await fetch(`${apiUrl}/api/picks`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
