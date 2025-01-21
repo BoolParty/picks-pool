@@ -7,6 +7,9 @@ const MatchedPicks = ({ user }) => {
   const [error, setError] = useState(null);
   const apiUrl = process.env.REACT_APP_API_URL;
 
+  console.log('API URL:', apiUrl);
+  console.log('User email:', user?.email);
+
   useEffect(() => {
     const fetchMatchedPicks = async () => {
       try {
@@ -70,6 +73,7 @@ const MatchedPicks = ({ user }) => {
                       </div>
                     );
                   }
+                  return null;
                 })
               ) : null}
           </li>
