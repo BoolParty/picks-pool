@@ -6,9 +6,12 @@ const UnmatchedPicks = ({ user }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Define apiUrl using the environment variable
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   useEffect(() => {
     const fetchUnmatchedPicks = async () => {
-      const url = `http://localhost:5001/api/picks/unmatched/${user.email}`;
+      const url = `${apiUrl}/api/picks/unmatched/${user.email}`;
       console.log('Fetching unmatched picks from:', url); // Debug log
   
       try {
@@ -37,7 +40,7 @@ const UnmatchedPicks = ({ user }) => {
       console.error('User email is undefined, skipping fetch'); // Debug log
       setError('User email is required to fetch unmatched picks.');
     }
-  }, [user]);
+  }, [user, apiUrl]);
 
   if (loading) return <p>Loading unmatched picks...</p>;
   if (error) return <p>{error}</p>;

@@ -5,11 +5,12 @@ const MatchedPicks = ({ user }) => {
   const [matchedPicks, setMatchedPicks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     const fetchMatchedPicks = async () => {
       try {
-        const response = await fetch(`http://localhost:5001/api/picks/matched/${user.email}`);
+        const response = await fetch(`${apiUrl}/api/picks/matched/${user.email}`);
         if (response.ok) {
           const data = await response.json();
           console.log('Fetched matched picks:', data); // Add this log to see the response data
@@ -27,7 +28,7 @@ const MatchedPicks = ({ user }) => {
     if (user && user.email) {
       fetchMatchedPicks();
     }
-  }, [user]);
+  }, [user, apiUrl]);
 
   if (loading) return <p>Loading matched picks...</p>;
   if (error) return <p>{error}</p>;

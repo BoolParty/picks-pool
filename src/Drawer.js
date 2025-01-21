@@ -13,6 +13,9 @@ const Drawer = ({
 }) => {
   if (!drawerOpen) return null;
 
+  // Define apiUrl here using environment variable
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   // Define removePick function here
   const removePick = (indexToRemove) => {
     setSelectedPicks((prevPicks) => prevPicks.filter((_, index) => index !== indexToRemove));
@@ -33,7 +36,7 @@ const handlePlaceAllPicks = async () => {
       console.log('Submitting picks:', enrichedPicks); // Debug log
   
       // Send all enriched picks to the backend in a single request
-      const response = await fetch('http://localhost:5001/api/picks', {
+      const response = await fetch('${apiUrl}/api/picks', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
