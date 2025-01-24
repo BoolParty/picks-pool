@@ -28,7 +28,7 @@ body {
   position: absolute;
   top: 22px;
   right: 124px;
-  background-color: #FF7204;
+  background-color: #056605;
   color: white;
   font-style: bold;
   border: none;
@@ -265,8 +265,15 @@ hr {
 }
 
 .drawer.collapsed {
-  width: 60px; /* Keep the drawer partially visible */
-  transform: none; /* Do not push the drawer completely out of view */
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 60px; /* Collapsed drawer width */
+  height: 100%;
+  background-color: #f8f9fa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .drawer.collapsed .drawer-title,
@@ -274,6 +281,21 @@ hr {
 .drawer.collapsed .drawer-row,
 .drawer.collapsed .drawer-footer {
   display: none; /* Hide all elements in the drawer when collapsed */
+}
+
+.drawer.collapsed .drawer-label {
+  writing-mode: vertical-rl; /* Vertical text layout */
+  text-orientation: upright;
+  color: lightgrey;
+  font-size: 1rem;
+  font-weight: bold;
+  letter-spacing: 0.2rem;
+  text-align: center;
+  margin: auto; /* Center text vertically */
+  height: 100%; /* Ensure full height of the drawer */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .drawer-toggle {
@@ -286,13 +308,24 @@ hr {
   padding: 10px;
   font-size: 18px;
   cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+  animation: pulse 2s infinite;
   color: grey;
   box-shadow: 0 0 3px rgba(65, 65, 65, 0.2);
   z-index: 10; /* Keep the button above all elements */
 }
 
 .drawer-toggle:hover {
-  background-color: lightgrey;
+  background-color: rgb(228, 227, 227);
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 0 8px #056605;
+  }
+  50% {
+    box-shadow: 0 0 20px #056605;
+  }
 }
 
 /* Make the main layout responsive */
