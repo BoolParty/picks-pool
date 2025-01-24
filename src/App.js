@@ -141,7 +141,7 @@ function App() {
         <header className="title-section">
           <h1>
             <a href="/" className="site-title">
-              NFL Pick Party
+              Pickparty.net
             </a>
           </h1>
           {user ? (
