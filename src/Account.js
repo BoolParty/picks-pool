@@ -22,8 +22,8 @@ const Account = () => {
       <h1>My Account</h1>
       <ul className="account-menu">
       <li>
-          <button className="account-menu-button" onClick={() => navigate("/userprofile")}>
-            Account Details
+          <button className="account-menu-button" onClick={() => navigate("/results")}>
+            Results
           </button>
         </li>
         <li>
@@ -34,6 +34,11 @@ const Account = () => {
         <li>
           <button className="account-menu-button" onClick={() => navigate("/unmatchedpicks")}>
             Unmatched Picks
+          </button>
+        </li>
+        <li>
+          <button className="account-menu-button" onClick={() => navigate("/userprofile")}>
+            Account Details
           </button>
         </li>
         <li>

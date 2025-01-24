@@ -11,7 +11,7 @@ const Home = ({
 }) => {
     const removeLocation = (teamName) => {
         const words = teamName.split(' ');
-        return words.length > 1 ? words.slice(1).join(' ') : teamName; // Remove the first word if there's more than one
+        return words.length > 1 ? words.slice(-1).join(' ') : teamName; // Shortened team name to last word
       };
     const formatGameTitle = (awayTeam, homeTeam, 
         startTime) => {
@@ -33,7 +33,55 @@ const Home = ({
           {loading && <p>Loading games...</p>}
           {error && <p>{error}</p>}
           <ul className="games-list">
-            {games.map((game) => {
+            {games
+             .filter((game) => game.sport_key === 'americanfootball_nfl') // Filter NFL games
+             .map((game) => {
+              const spreads = game.bookmakers[0]?.markets[0]?.outcomes || [];
+              const awaySpread = spreads.find((outcome) => outcome.name === game.away_team);
+              const homeSpread = spreads.find((outcome) => outcome.name === game.home_team);
+
+              if (!awaySpread || !homeSpread) return null;
+
+              const gameTitle = formatGameTitle(
+                game.away_team,
+                game.home_team,
+                game.commence_time // Assuming `commence_time` contains the start time in ISO format
+              );
+
+              return (
+                <li key={game.id} className="game">
+                  <div className="game-container">
+                    <div className="game-title">
+                      {gameTitle}
+                    </div>
+                    <div className="game-content">
+                    <div className="team">
+                        {removeLocation(game.away_team)}{' '}
+                        <button onClick={() => togglePick(game.id, game.away_team, awaySpread.point)}>
+                            {formatSpread(awaySpread.point)}
+                        </button>
+                        </div>
+                        <div className="team">
+                        {removeLocation(game.home_team)}{' '}
+                        <button onClick={() => togglePick(game.id, game.home_team, homeSpread.point)}>
+                            {formatSpread(homeSpread.point)}
+                        </button>
+                        </div>
+                    </div>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+
+          <h2 className="section-header">NBA</h2>
+          <hr className="sub-header-line" />
+          {loading && <p>Loading games...</p>}
+          {error && <p>{error}</p>}
+          <ul className="games-list">
+            {games
+              .filter((game) => game.sport_key === 'basketball_nba')
+              .map((game) => {
               const spreads = game.bookmakers[0]?.markets[0]?.outcomes || [];
               const awaySpread = spreads.find((outcome) => outcome.name === game.away_team);
               const homeSpread = spreads.find((outcome) => outcome.name === game.home_team);

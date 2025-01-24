@@ -1,0 +1,26 @@
+button {
+    flex: 1;
+    background-color: #007bff; /* Blue background for buttons */
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 8px;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+  }
+  
+  .total {
+    flex: 1;
+    text-align: center;
+    color: #333; /* Neutral color for totals */
+  }
+  
+  .moneyline {
+    flex: 1;
+    text-align: right;
+    color: #333; /* Neutral color for moneyline */
+  }

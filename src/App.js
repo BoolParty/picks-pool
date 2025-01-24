@@ -12,6 +12,7 @@ import Login from './Login';
 import UserProfile from "./UserProfile";
 import MatchedPicks from "./MatchedPicks";
 import UnmatchedPicks from "./UnmatchedPicks";
+import Results from './Results';
 
 function App() {
   const [games, setGames] = useState([]);
@@ -50,24 +51,48 @@ function App() {
     const apiKey = process.env.REACT_APP_ODDS_API_KEY;
     const fetchOdds = async () => {
       try {
-        const response = await axios.get(
-          'https://api.the-odds-api.com/v4/sports/americanfootball_nfl/odds/',
-          {
-            params: {
-              apiKey: apiKey,
-              regions: 'us',
-              markets: 'spreads',
-              oddsFormat: 'american',
-            },
-          }
-        );
+        setLoading(true);
+        setError(null);
+  
+         // Fetch NFL data
+         console.log("Fetching NFL data...");     
+    const nflResponse = await axios.get(
+      'https://api.the-odds-api.com/v4/sports/americanfootball_nfl/odds/',
+      {
+        params: {
+          apiKey: apiKey,
+          regions: 'us',
+          markets: 'spreads',
+          oddsFormat: 'american',
+        },
+      }
+    );
+    console.log('NFL Response:', nflResponse.data);
 
-        // Filter games with a valid start time
-        const now = new Date();
-      const sevenDaysFromNow = new Date();
-      sevenDaysFromNow.setDate(now.getDate() + 7);
+    // Fetch NBA data
+    console.log("Fetching NBA data...");
+    const nbaResponse = await axios.get(
+      'https://api.the-odds-api.com/v4/sports/basketball_nba/odds/',
+      {
+        params: {
+          apiKey: apiKey,
+          regions: 'us',
+          markets: 'spreads',
+          oddsFormat: 'american',
+        },
+      }
+    );
+    console.log('NBA Response:', nbaResponse.data);
 
-      const filteredGames = response.data.filter((game) => {
+    // Combine and filter results
+    const allGames = [...nflResponse.data, ...nbaResponse.data];
+    console.log("Combined Games:", allGames);
+
+    const now = new Date();
+    const sevenDaysFromNow = new Date();
+    sevenDaysFromNow.setDate(now.getDate() + 7);
+
+      const filteredGames = allGames.filter((game) => {
         const gameStartTime = new Date(game.commence_time); // Convert commence_time to Date
         return gameStartTime >= now && gameStartTime <= sevenDaysFromNow;
       });
@@ -145,6 +170,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/userprofile" element={<UserProfile />} />
           <Route path="/matchedpicks" element={<MatchedPicks user={user} />} />
+          <Route path="/results" element={<Results user={user} />} />
           <Route path="/unmatchedpicks" element={<UnmatchedPicks user={user} />} />
         </Routes>
 
