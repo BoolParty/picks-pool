@@ -31,9 +31,10 @@
   }
 
   .account-menu-button {
-    padding: 6px 12px;
+    padding: 9px 17px;
     margin-top: 12px;
     font-size: 12px;
+    border-radius: 2px;
     text-align: center;
   }
 
