@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './App.css';
-import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
 import { useNavigate } from 'react-router-dom';
 import { Routes, Route } from "react-router-dom";
@@ -137,7 +136,9 @@ function App() {
   };
 
   return (
-      <div className="app">
+      <div
+      className={`app ${drawerOpen ? (drawerCollapsed ? 'drawer-collapsed' : 'drawer-open') : ''}`}
+      >
         <header className="title-section">
           <h1>
             <a href="/" className="site-title">

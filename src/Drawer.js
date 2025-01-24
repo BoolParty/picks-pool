@@ -60,8 +60,11 @@ const handlePlaceAllPicks = async () => {
     }
   };
 
+    // Conditional CSS class for collapsed state
+    const drawerClass = `drawer ${drawerCollapsed ? 'collapsed' : ''}`;
+
   return (
-    <div className={`drawer ${drawerCollapsed ? 'collapsed' : ''}`}>
+    <div className={drawerClass}>
       <button className="drawer-toggle" onClick={handleDrawerToggle}>
         {drawerCollapsed ? '<<' : '>>'}
       </button>

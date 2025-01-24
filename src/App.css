@@ -12,7 +12,7 @@ body {
 
 .title-section {
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   position: relative;
   border-bottom: 2px solid white;
   padding-bottom: 20px;
@@ -26,14 +26,16 @@ body {
 
 .title-section .account-button {
   position: absolute;
-  top: 30px;
-  right: 16px;
-  background-color: #444;
+  top: 22px;
+  right: 124px;
+  background-color: #FF7204;
   color: white;
+  font-style: bold;
   border: none;
   border-radius: 5px;
-  padding: 8px 12px;
+  padding: 14px 22px;
   cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
 }
 
 .title-section .account-button:hover {
@@ -53,7 +55,7 @@ hr {
 }
 
 .section-header {
-  font-size: 36px;
+  font-size: 44px;
   margin-bottom: 10px;
 }
 
@@ -108,8 +110,9 @@ hr {
   top: 0;
   right: 0;
   height: 100%;
-  width: 400px;
+  width: 300px;
   background-color: white;
+  transition: width 0.3s ease-in-out;
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
@@ -262,7 +265,7 @@ hr {
 }
 
 .drawer.collapsed {
-  width: 72px; /* Keep the drawer partially visible */
+  width: 60px; /* Keep the drawer partially visible */
   transform: none; /* Do not push the drawer completely out of view */
 }
 
@@ -295,9 +298,38 @@ hr {
 /* Make the main layout responsive */
 .app {
   display: flex;
+  transition: margin-right 0.3s ease-in-out;
   flex-direction: column;
   align-items: left;
   padding: 20px;
+}
+
+.app.drawer-open {
+  margin-right: 300px; /* Matches the expanded drawer width */
+}
+
+.app.drawer-collapsed {
+  margin-right: 60px; /* Matches the collapsed drawer width */
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #f8f9fa;
+  transition: padding-right 0.3s ease-in-out;
+}
+.header.drawer-open {
+  padding-right: 320px; /* Matches the expanded drawer width + padding */
+}
+
+.header.drawer-collapsed {
+  padding-right: 80px; /* Matches the collapsed drawer width + padding */
+}
+
+.Home {
+  transition: margin-right 0.3s ease-in-out;
 }
 
 /* Adjust content layout for smaller screens */
@@ -312,12 +344,28 @@ hr {
     font-size: 11px;
     border: none;
     border-radius: 5px;
-    padding: 6px 8px;
+    padding: 7px 10px;
+    transition: background-color 0.2s ease-in-out;
     cursor: pointer;
     min-width: fit-content; /* Ensure background adjusts to text size */
     max-width: none; /* Remove unnecessary constraints */
     overflow: visible; /* Ensure background isn't clipped */
   }
+
+  .title-section .account-button {
+    position: absolute;
+    top: 22px;
+    right: 124px;
+    background-color: #FF7204;
+    color: white;
+    font-style: bold;
+    border: none;
+    border-radius: 5px;
+    padding: 11px 17px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
   .drawer {
     width: 100%; /* Full-width drawer for mobile */
   }
