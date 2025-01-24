@@ -121,7 +121,7 @@ const Home = ({
           </ul>
         </>
       ) : (
-        <p>The days of paying juice on spreads & totals is over. Sign in or create an account to place and view bets. </p>
+        <p>The days of paying juice on spreads & totals are ending. Sign in to view your bets or create an account today. </p>
       )}
     </main>
   );
