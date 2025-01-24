@@ -73,10 +73,10 @@ hr {
 
 .team {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
+  justify-content: space-between; /* Team name and button on opposite sides */
+  align-items: center; /* Align vertically */
+  padding: 5px 10px; /* Padding for spacing */
+  color: #0e0e0e;}
 
 .pick-button {
   background-color: #444;
@@ -324,13 +324,32 @@ hr {
 
   .games-list {
     width: 100%; /* Make the game list responsive */
-    padding: 0 20px;
+    padding-left: 0px; /* Align the list with the title */
+    padding-right: 15px; /* Maintain consistent spacing */
   }
 
   .team {
-    flex-direction: column; /* Stack teams on mobile */
-    align-items: flex-start;
+    display: flex;
+    justify-content: space-between; /* Team name and button on opposite sides */
+    align-items: center; /* Align vertically */
+    padding: 5px 10px; /* Padding for spacing */
+    color: #0e0e0e;
   }
+
+  /* Pick button */
+.pick-button {
+  background-color: #444;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.pick-button:hover {
+  background-color: #666;
+}
 
   .pick-button {
     width: 100%; /* Full-width buttons for easier tapping */
@@ -343,9 +362,10 @@ hr {
   }
 
   .game-container {
+    margin-left: 0; /* Ensure no extra margin on the left */
     display: flex;
     flex-direction: column; /* Stack teams vertically */
-    gap: 20px; /* Add spacing between teams */
+    gap: 0px; /* Add spacing between teams */
   }
 }
 
@@ -433,4 +453,46 @@ hr {
 .site-title {
   text-decoration: none; /* Remove underline */
   color: #ffffff;
+}
+
+.game-container {
+  background-color: #f2f2f2; /* Light grey background */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  padding: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column; /* Stack title and teams vertically */
+  height: 112px; /* Total height of the game box */
+  justify-content: space-between; /* Space between title and content */
+}
+
+.game-container:hover {
+  transform: translateY(-2px); /* Slight lift effect on hover */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Enhance shadow on hover */
+}
+
+.game-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333; /* Darker grey for text */
+  text-align: center;
+  border-bottom: 1px solid #ccc; /* Thin grey line below the title */
+  padding-bottom: 5px;
+  margin-bottom: 15px; /* Space between title and content */
+}
+
+.game-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column; /* Stack teams vertically */
+  justify-content: space-around; /* Distribute teams evenly */
+  height: 75%; /* Ensure the content occupies 75% of the box */
+}
+
+/* Team text */
+.team span {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
 }
