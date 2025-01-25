@@ -122,9 +122,9 @@ const Home = ({
         </>
       ) : (
         <div>
-        <p>Bet NFL & NBA spreads at +100.</p>
-        <p>Sign in to place picks.</p>
-        <p>Get an email when they're confirmed.</p>
+        Place +100 bets on NFL & NBA spreads.<br />
+        Get an email when they're confirmed.<br />
+        Invite friends you trust.
         </div>
       )}
     </main>
