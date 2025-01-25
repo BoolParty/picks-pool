@@ -121,7 +121,8 @@ const Home = ({
           </ul>
         </>
       ) : (
-        <p>The days of paying juice on spreads & totals are ending. Sign in to view your bets or create an account today. </p>
+        <p>All NFL spreads +100. 
+          Sign in or sign up to place picks. Get emailed when you're matched. </p>
       )}
     </main>
   );
