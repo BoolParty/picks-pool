@@ -121,8 +121,8 @@ const Home = ({
           </ul>
         </>
       ) : (
-        <p>All NFL spreads +100. 
-          Sign in or sign up to place picks. Get emailed when you're matched. </p>
+        <p>Bet all NFL spreads at +100. 
+          Sign in to place picks. Get emailed when you're matched. </p>
       )}
     </main>
   );
