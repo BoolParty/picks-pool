@@ -122,7 +122,7 @@ const Home = ({
         </>
       ) : (
         <p>Bet all NFL spreads at +100. 
-          Sign in to place picks. Get emailed when you're matched. </p>
+          Sign in to place picks. Get an email when they're confirmed. </p>
       )}
     </main>
   );
