@@ -698,7 +698,7 @@ hr {
   padding: 0 8px;
 }
 
-.column-counterparty {
+.column-opponent {
   flex: 3; /* 30% width */
   border-right: 1px solid #ddd; /* Light grey vertical line */
   padding: 0 8px;
@@ -710,7 +710,7 @@ hr {
   padding: 0 8px;
 }
 
-.column-settled {
+.column-outcome {
   flex: 1; /* 10% width */
   padding: 0 8px; /* No border on the last column */
   padding-top: 2px;
