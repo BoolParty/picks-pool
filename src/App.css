@@ -661,6 +661,7 @@ hr {
   border-radius: 8px; /* Rounded corners */
   padding: 20px;
   margin-top: 8px; /* Space between sections */
+  margin-bottom: 24px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for the box */
   width: 100%; /* Full width */
   max-width: 1200px;
@@ -696,18 +697,24 @@ hr {
   flex: 5; /* 50% width */
   border-right: 1px solid #ddd; /* Light grey vertical line */
   padding: 0 8px;
+  color: #1c1b1b;
+  font-size: 11px;
 }
 
 .column-opponent {
   flex: 3; /* 30% width */
   border-right: 1px solid #ddd; /* Light grey vertical line */
   padding: 0 8px;
+  color: #1c1b1b;
+  font-size: 11px;
 }
 
 .column-amount {
   flex: 1; /* 10% width */
   border-right: 1px solid #ddd; /* Light grey vertical line */
   padding: 0 8px;
+  color: #1c1b1b;
+  font-size: 11px;
 }
 
 .column-outcome {
@@ -715,4 +722,5 @@ hr {
   padding: 0 8px; /* No border on the last column */
   padding-top: 2px;
   font-size: 11px;
+  color: #1c1b1b;
 }

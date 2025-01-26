@@ -83,7 +83,7 @@ const Results = ({ user }) => {
             ))
           ) : (
             <div className="results-box-row">
-              <p>No losing results yet.</p>
+              <p>No losses yet.</p>
             </div>
           )}
         </div>
