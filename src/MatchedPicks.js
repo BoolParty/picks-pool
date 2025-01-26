@@ -55,21 +55,21 @@ const MatchedPicks = ({ user }) => {
                     return (
                       <div key={index}>
                         <p>Amount: ${pick.matchedWager[0]}</p> {/* Only display the first matched wager */}
-                        <p>Counterparty: {pick.matchedUserEmail[0]}</p> {/* Display the first matched user */}
+                        <p>Opponent: {pick.matchedUserEmail[0]}</p> {/* Display the first matched user */}
                       </div>
                     );
                   } else if (pick.matchedUserEmail.length === 2 && pick.matchedWager.length === 1 && index === 0) {
                     return (
                       <div key={index}>
                         <p>Amount: ${pick.matchedWager[0]}</p> {/* Always display the first matched wager */}
-                        <p>Counterparty: {pick.matchedUserEmail[1]}</p> {/* Display the second matched user */}
+                        <p>Opponent: {pick.matchedUserEmail[1]}</p> {/* Display the second matched user */}
                       </div>
                     );
                   } else if (pick.matchedUserEmail.length === 2 && pick.matchedWager.length === 2 && index === 1) {
                     return (
                       <div key={index}>
                         <p>Amount: ${pick.matchedWager[1]}</p> {/* Display the second matched wager */}
-                        <p>Counterparty: {pick.matchedUserEmail[1]}</p> {/* Display the second matched user */}
+                        <p>Opponent: {pick.matchedUserEmail[1]}</p> {/* Display the second matched user */}
                       </div>
                     );
                   }

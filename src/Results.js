@@ -9,16 +9,21 @@ const Results = ({ userId }) => {
 
   useEffect(() => {
     const fetchResults = async () => {
+      setLoading(true); // Reset loading on dependency change
       try {
-        const response = await fetch(`${apiUrl}/results/${userId}`);
-        setResults(response.data);
+        const response = await fetch(`${apiUrl}/api/results/${userId}`);
+        const data = await response.json();
+        setResults(data);
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching results:', error.message);
+        setError('Failed to load results.');
+        setLoading(false);
       }
     };
   
     fetchResults();
-  }, [userId]);
+  }, [apiUrl, userId]);
 
   if (loading) return <p>Loading results...</p>;
   if (error) return <p style={{ color: 'red' }}>{error}</p>;
@@ -27,34 +32,58 @@ const Results = ({ userId }) => {
     <div className="results-container">
       <h1>Results</h1>
 
+      {/* WON Section */}
       <div className="results-section">
         <h2>WON</h2>
-        {results.won.length > 0 ? (
-          <ul>
-            {results.won.map((pick) => (
-              <li key={pick.id}>
-                <span>{pick.gameTitle}</span> - <strong>{pick.pick}</strong>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>No winning picks yet.</p>
-        )}
+        <div className="results-box">
+          <div className="results-box-header">
+            <div className="column-pick">Pick</div>
+            <div className="column-counterparty">vs.</div>
+            <div className="column-amount">$</div>
+            <div className="column-settled">Paid?</div>
+          </div>
+          {results?.won?.length > 0 ? (
+            results.won.map((pick) => (
+              <div key={pick.id} className="results-box-row">
+                <div className="column-pick">{pick.gameTitle}</div>
+                <div className="column-counterparty">{pick.matchedUserEmail || 'N/A'}</div>
+                <div className="column-amount">${pick.amount || 0}</div>
+                <div className="column-settled">{pick.settled ? 'Yes' : 'No'}</div>
+              </div>
+            ))
+          ) : (
+            <div className="results-box-row">
+              <p>No winning picks yet.</p>
+            </div>
+          )}
+        </div>
       </div>
 
+      {/* LOST Section */}
       <div className="results-section">
         <h2>LOST</h2>
-        {results.lost.length > 0 ? (
-          <ul>
-            {results.lost.map((pick) => (
-              <li key={pick.id}>
-                <span>{pick.gameTitle}</span> - <strong>{pick.pick}</strong>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>No losing picks yet.</p>
-        )}
+        <div className="results-box">
+          <div className="results-box-header">
+            <div className="column-pick">Pick</div>
+            <div className="column-counterparty">vs.</div>
+            <div className="column-amount">$</div>
+            <div className="column-settled">Paid?</div>
+          </div>
+          {results?.lost?.length > 0 ? (
+            results.lost.map((pick) => (
+              <div key={pick.id} className="results-box-row">
+                <div className="column-pick">{pick.gameTitle}</div>
+                <div className="column-counterparty">{pick.matchedUserEmail || 'N/A'}</div>
+                <div className="column-amount">${pick.amount || 0}</div>
+                <div className="column-settled">{pick.settled ? 'Yes' : 'No'}</div>
+              </div>
+            ))
+          ) : (
+            <div className="results-box-row">
+              <p>No losing picks yet.</p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
