@@ -2,19 +2,30 @@ import React, { useState } from 'react';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from './firebase';
 import { useNavigate } from 'react-router-dom';
+import { getFirestore, doc, setDoc } from 'firebase/firestore';
 import './App.css';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [venmoUsername, setVenmoUsername] = useState(''); // New state for Venmo username
   const [isSignUp, setIsSignUp] = useState(false); // Toggle between login and signup
   const navigate = useNavigate();
+  const db = getFirestore(); // Firestore instance
 
   const handleAuth = async () => {
     try {
       if (isSignUp) {
         // Create a new user account in Firebase
-        await createUserWithEmailAndPassword(auth, email, password);
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const userId = userCredential.user.uid;
+
+        // Save additional user data to Firestore
+        await setDoc(doc(db, 'users', userId), {
+          email: email,
+          venmoUsername: venmoUsername,
+        });
+
         alert('Account created successfully!');
       } else {
         // Sign in an existing user
@@ -43,6 +54,14 @@ function Login() {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
+      {isSignUp && (
+        <input
+          type="text"
+          placeholder="Venmo Username"
+          value={venmoUsername}
+          onChange={(e) => setVenmoUsername(e.target.value)}
+        />
+      )}
       <button onClick={handleAuth}>
         {isSignUp ? 'Sign Up' : 'Sign In'}
       </button>
