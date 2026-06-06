@@ -122,9 +122,9 @@ const Home = ({
         </>
       ) : (
         <div>
-        <p>+100 odds on all NFL & NBA spreads.</p>
-        <p>Get an email when a bet's confirmed.</p>
-        <p>Invite friends you trust.</p>
+        <p>+101 odds on all NFL & NBA spreads.</p>
+        <p>Get an email when a bet is matched.</p>
+        <p>Payouts in 72 hours. ACH Transfer Only.</p>
         </div>
       )}
     </main>
